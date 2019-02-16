@@ -53,4 +53,5 @@ tags
 
 project/commands.sh
 *.pyc
+*.db
 # End of https://www.gitignore.io/api/macos,vagrant
