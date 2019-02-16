@@ -2,6 +2,7 @@ import sys
 import os
 import argparse
 from sqlalchemy import Table, Column, ForeignKey, Integer, String, DateTime
+from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, relationship, backref
@@ -26,7 +27,7 @@ class Hiker(Base):
     email = Column(String(32))
     emergency_contact1 = Column(String(32))
     emergency_contact2 = Column(String(32))
-    expected_return = Column(DateTime())
+    expected_return = Column(DateTime()) # WHENEVER WE WANT TO ESTABLISH A DATE, YOU HAVE TO PASS IT IN
     trip = relationship('Trip', secondary=association_table, back_populates="hikers")
 
     @property

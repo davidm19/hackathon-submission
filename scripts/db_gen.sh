@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # If there is a test database already present, delete it
-if [[ -e test.db ]]; then
-	rm test.db
+if [[ -e database.db ]]; then
+	rm database.db
 fi
 
 # Create new test database and populate it
