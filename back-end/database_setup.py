@@ -32,15 +32,15 @@ class Hiker(Base):
 
     @property
     def serialize(self):
-        return {
-                'first_name': self.first_name,
-                'last_name': self.last_name,
-                'address': self.address,
-                'phone_number': self.phone_number,
-                'email': self.email,
-                'emergency_contact1': self.emergency_contact1,
-                'emergency_contact2': self.emergency_contact2,
-                'expected_return': self.expected_return
+        return { # HOW TO UNALPHABETIZE JSON SERIALIZING????
+                '1) first_name': self.first_name,
+                '2) last_name': self.last_name,
+                '3) address': self.address,
+                '4) phone_number': self.phone_number,
+                '5) email': self.email,
+                '6) emergency_contact1': self.emergency_contact1,
+                '7) emergency_contact2': self.emergency_contact2,
+                '8) expected_return': self.expected_return
         }
 
 class Trip(Base):
@@ -52,8 +52,8 @@ class Trip(Base):
     @property
     def serialize(self):
         return {
-                'trip_name': self.trip_name,
-                'hikers': [ hiker.serialize for hiker in self.hikers ]
+                '1. trip_name': self.trip_name,
+                '2. hikers': [ hiker.serialize for hiker in self.hikers ]
         }
 
 # parser = argparse.ArgumentParser()
