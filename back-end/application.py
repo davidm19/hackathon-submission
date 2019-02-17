@@ -115,15 +115,40 @@ def getHikersInTrip(trip_id):
                       "emergency_contact2": tripHikerLink.hiker.emergency_contact2,
                       "expected_return": tripHikerLink.hiker.expected_return,
                       }
-        tripStudentList.append(hiker_info)
+        tripHikerList.append(hiker_info)
     print(tripHikerList);
     return flask.jsonify(tripHikerList), 200
 
-@app.route('/hikers/<int:ID>/', methods=['GET'])
-def showHiker(ID):
-    hiker = session.query(Hiker).filter_by(id=ID).one()
-    return flask.jsonify(hiker.serialize), 200
+@app.route('/hikers/<int:hiker_id>', methods=['GET'])
+def showHiker(hiker_id):
+    hiker = session.query(Hiker).filter_by(id=hiker_id).one()
+    hiker_info = {"first_name": hiker.first_name,
+                  "last_name": hiker.last_name,
+                  "address": hiker.address,
+                  "phone_number": hiker.phone_number,
+                  "email": hiker.email,
+                  "emergency_contact1": hiker.emergency_contact1,
+                  "emergency_contact2": hiker.emergency_contact2,
+                  "expected_return": hiker.expected_return,
+                }
+    return flask.jsonify(hiker_info), 200
 
+@app.route('/hikers', methods=['GET'])
+def getHikers():
+    hikerList = []
+    allHikers = session.query(Hiker).all()
+    for hiker in allHikers:
+        hiker_info = {"first_name": hiker.first_name,
+                      "last_name": hiker.last_name,
+                      "address": hiker.address,
+                      "phone_number": hiker.phone_number,
+                      "email": hiker.email,
+                      "emergency_contact1": hiker.emergency_contact1,
+                      "emergency_contact2": hiker.emergency_contact2,
+                      "expected_return": hiker.expected_return,
+                    }
+        hikerList.append(hiker_info)
+    return flask.jsonify(hikerList), 200
 
 @app.route('/hikers/new', methods=['POST'])
 def newHiker():

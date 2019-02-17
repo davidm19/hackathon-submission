@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { API_URL } from '../../env';
 import { Trip } from './trip.model';
-import { Hiker } from './hiker/hiker.model';
+import { Hiker } from './hikers/hiker.model';
 
 @Injectable()
 export class TripsApiService {

@@ -1,0 +1,28 @@
+<body class="w3-main" style="margin-left:300px">
+
+
+<!-- !HEADER! -->
+<header>
+  <div class="w3-container">
+  <h1><b>{{ hiker?.first_name }} {{ hiker?.last_name }}</b></h1>
+  </div>
+</header>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-row-padding ">
+  <div class="w3-container w3-margin-bottom ">
+    <div class="w3-card w3-container w3-light-grey">
+      <h2><b>Details:</b></h2>
+      <p><b>Address: </b> <i>{{ hiker?.address }}</i></p>
+      <p><b>Phone Number: </b><i>{{ hiker?.phone_number }}</i></p>
+      <p><b>Email: </b><i>{{ hiker?.email }}</i></p>
+      <p><b>Emergency Contact 1: </b><i>{{ hiker?.emergency_contact1 }}</i></p>
+      <p><b>Emergency Contact 2: </b><i>{{ hiker?.emergency_contact2 }}</i></p>
+      <p><b>Expected Return Date: </b><i>{{ hiker?.expected_return }}</i></p>
+    </div>
+  </div>
+</div>
+
+
+
+</body>

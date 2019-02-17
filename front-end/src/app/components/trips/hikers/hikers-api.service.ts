@@ -16,4 +16,15 @@ export class HikersApiService {
     return Observable.throw(err.message || 'Error: Unable to complete request.');
   }
 
+  getHiker(HIKER_ID: number): Observable<Hiker> {
+  return this.http
+  .get<Hiker>(`${API_URL}/hikers/${HIKER_ID}/detail`);
+  }
+
+  getHikers():
+  Observable<Array<Hiker>> {
+    return this.http
+    .get<Array<Hiker>>(`${API_URL}/hikers`);
+  }
+
 }

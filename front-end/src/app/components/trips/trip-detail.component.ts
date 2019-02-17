@@ -7,8 +7,8 @@ import { TripsApiService } from './trips-api.service';
 import { Trip } from './trip.model';
 import { TripsComponent } from './trips.component';
 import { TripsModule } from './trips.module';
-import { Hiker } from './hiker/hiker.model';
-import { HikersApiService } from './hiker/hikers-api.service';
+import { Hiker } from './hikers/hiker.model';
+import { HikersApiService } from './hikers/hikers-api.service';
 
 @Component({
   selector: 'app-trip-detail',
@@ -33,7 +33,7 @@ export class TripDetailComponent implements OnInit {
     }
 
   getTrip(): void {
-    const TRIP_ID = +this.route.snapshot.paramMap.get('id');
+    const TRIP_ID = +this.route.snapshot.paramMap.get('trip_id');
     this.tripsApi
     .getTrip(TRIP_ID)
     .subscribe(res => {
@@ -44,7 +44,7 @@ export class TripDetailComponent implements OnInit {
   }
 
   getHikersInTrip(): void {
-    const TRIP_ID = +this.route.snapshot.paramMap.get('id');
+    const TRIP_ID = +this.route.snapshot.paramMap.get('trip_id');
     this.tripsApi
     .getHikersInTrip(TRIP_ID)
     .subscribe(

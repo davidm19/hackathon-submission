@@ -1,0 +1,19 @@
+<div class="w3-main" style="margin-left:300px">
+
+  <!-- Header -->
+  <header>
+    <div class="w3-container">
+    <h1><b>Hikers</b></h1>
+    </div>
+  </header>
+<!-- grid -->
+
+  <div class="w3-row-padding " *ngFor="let hiker of hikersList">
+    <div class="w3-container w3-margin-bottom ">
+      <div class="w3-card w3-container w3-light-grey" routerLink="/{{ hiker.id }}">
+        <p><b> {{ hiker?.first_name }} {{ hiker?.last_name}}
+        </b></p>
+      </div>
+    </div>
+  </div>
+</div>

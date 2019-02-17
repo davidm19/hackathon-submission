@@ -11,13 +11,23 @@
 <!-- !PAGE CONTENT! -->
 <div class="w3-row-padding ">
   <div class="w3-container w3-margin-bottom ">
-    <div class="w3-card w3-container w3-light-grey" routerLink="{{ trip.id }}/detail">
+    <div class="w3-card w3-container w3-light-grey">
       <h2><b>Details:</b></h2>
       <p><b>Description: </b> <i>{{ trip?.trip_description }}</i></p>
       <p><b>Start Location: </b><i>{{ trip?.trip_start_location }}</i></p>
       <p><b>Start Date: </b><i>{{ trip?.trip_start_date }}</i></p>
       <p><b>End Location: </b><i>{{ trip?.trip_end_location }}</i></p>
       <p><b>End Date: </b><i>{{ trip?.trip_end_date }}</i></p>
+    </div>
+  </div>
+</div>
+
+<div class="w3-row-padding ">
+  <div class="w3-container w3-margin-bottom ">
+    <div class="w3-card w3-container w3-light-grey">
+      <h2><b>Hikers:</b></h2>
+      <h5 *ngFor="let hiker of tripHikerList" routerLink="hikers/{{ hiker_id }}"> {{ hiker?.first_name}} {{hiker?.last_name}} {{hiker?.hiker_id}}</h5>
+
     </div>
   </div>
 </div>

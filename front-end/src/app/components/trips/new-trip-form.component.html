@@ -1,21 +1,28 @@
-
-    <div class="w3-container w3-card w3-margin-bottom w3-light-grey w3-display-middle">
-      <h2 class="w3-text-grey w3-padding-16">
-        <i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal">
-        </i>
-        Create New Trip
-      </h2>
-      <div class="w3-container">
-        <h5 class="w3-opacity">
-          <b>
-            <form>
-              <input placeholder="Trip Name" type="text" maxlength="80" size="80" (keyup)="updateName($event)">
-              <input class="description" placeholder="Description" type="text" maxlength="10000" size="80" (keyup)="updateDescription($event)">
-            </form>
-          </b>
-        </h5>
-        <br>
-      </div>
-      <button class="button2" routerLink="/trips" (click)="saveTrip()"> Save Trip</button>
-      <br><br>
-    </div>
+<div class="w3-container w3-card w3-margin-bottom w3-light-grey w3-display-middle">
+  <h2 class="w3-text-grey w3-padding-16">
+    <i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal">
+    </i>
+    Create New Trip
+  </h2>
+  <div class="w3-container">
+    <h5 class="w3-opacity">
+      <b>
+        <form>
+          <input placeholder="Trip Name" type="text" maxlength="80" size="80" (keyup)="updateName($event)">
+          <input class="description" placeholder="Description" type="text" maxlength="10000" size="80" (keyup)="updateDescription($event)">
+          <input placeholder="Starting Location" type="text" size="80" (keyup)="updateStartLocation">
+          <br>
+          <label for="startDate">Starting Date:</label>
+          <input name="startDate" id="startDate" type="date" placeholder="Starting Date" (keyup)="updateStartDate($event)">
+          <input placeholder="Ending Location" type="text" size="80" (keyup)="updateEndLocation">
+          <br>
+          <label for="endDate">Ending Date:</label>
+          <input type="date" [(ngModel)]="trip_end_date" (keyup)="updateEndDate($event)">
+        </form>
+      </b>
+    </h5>
+    <br>
+  </div>
+  <button class="button2" routerLink="/trips" (click)="saveTrip()"> Save Trip</button>
+  <br><br>
+</div>

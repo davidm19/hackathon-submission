@@ -10,16 +10,22 @@ import { SidebarMenuComponent } from './components/sidebar-menu/sidebar-menu.com
 import { TripsComponent } from './components/trips/trips.component';
 import { TripsApiService } from './components/trips/trips-api.service';
 import { TripFormComponent } from './components/trips/new-trip-form.component';
-import { HikerComponent } from './components/trips/hiker/hiker.component';
 import { TripDetailComponent } from './components/trips/trip-detail.component';
-import { HikersApiService } from './components/trips/hiker/hikers-api.service';
+import { HikersApiService } from './components/trips/hikers/hikers-api.service';
+import { HikersComponent } from './components/trips/hikers/hikers.component';
+import { HikerDetailComponent } from './components/trips/hikers/hiker-detail.component';
 
 const appRoutes: Routes = [
   { path: '', component: TripsComponent },
   { path: 'trips', component: TripsComponent },
   { path: 'trips/new', component: TripFormComponent },
   { path: 'new', component: TripFormComponent },
-  { path: 'trips/:id/detail', component: TripDetailComponent }
+  { path: 'trips/:trip_id/detail', component: TripDetailComponent },
+  { path: 'trips/:trip_id/detail/hikers/:hiker_id', component: HikerDetailComponent },
+  { path: ':trip_id/detail', component: TripDetailComponent },
+  { path: 'hikers/:hiker_id', component: HikerDetailComponent },
+  { path: 'hikers', component: HikersComponent }
+
 
 ];
 
@@ -29,8 +35,10 @@ const appRoutes: Routes = [
     SidebarMenuComponent,
     TripsComponent,
     TripFormComponent,
-    HikerComponent,
     TripDetailComponent,
+    HikerDetailComponent,
+    HikersComponent
+
 
 
   ],
