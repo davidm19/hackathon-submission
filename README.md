@@ -1,1 +1,1 @@
-# Hackathon Submission (Mia, Lucas, David)
+# Hackathon Submission (Hiker Safety)

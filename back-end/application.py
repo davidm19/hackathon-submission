@@ -11,9 +11,10 @@ import json
 from flask import make_response
 from sqlalchemy.sql import exists
 import os
-# from flask_cors import CORS
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 APPLICATION_NAME = "Hiking Safety App"
 
@@ -50,10 +51,11 @@ def show_trip(trip_id):
 def add_trip():
     post = request.get_json()
     if request.method == 'POST':
-        new_trip = Trip(trip_name=post["trip_name"])
-    session.add(newTrip)
+        new_trip = Trip(trip_name=post["trip_name"],
+                        trip_description=post["trip_description"])
+    session.add(new_trip)
     session.commit()
-    return flask.jsonify("Trip successfully added!"), 200
+    return flask.jsonify("successfully created new trip"), 200
 
 
 @app.route('/trips/<int:id>/update', methods=['PUT'])
