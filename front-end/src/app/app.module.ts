@@ -5,23 +5,26 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { CreateHikeComponent } from './components/hike/create-hike/create-hike.component';
-import { HikeComponent } from './components/hike/hike.component';
 import { SidebarMenuComponent } from './components/sidebar-menu/sidebar-menu.component';
 import { TripsComponent } from './components/trips/trips.component';
+import { TripsApiService } from './components/trips/trips-api.service';
+import { TripFormComponent } from './components/trips/new-trip-form.component';
 
 
 const appRoutes: Routes = [
   { path: '', component: TripsComponent },
+  { path: 'trips', component: TripsComponent },
+  { path: 'trips/new', component: TripFormComponent },
+  { path: 'new', component: TripFormComponent }
+
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreateHikeComponent,
-    HikeComponent,
     SidebarMenuComponent,
     TripsComponent,
+    TripFormComponent
 
   ],
   imports: [
@@ -30,7 +33,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [TripsApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

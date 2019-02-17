@@ -3,8 +3,7 @@ from flask import Flask, render_template, request, redirect, jsonify, url_for
 from flask import flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Hiker, engine, Trip
-# from database_setup import Trip
+from database_setup import Base, engine, Trip
 from flask import session as login_session
 import random
 import string
@@ -12,9 +11,10 @@ import json
 from flask import make_response
 from sqlalchemy.sql import exists
 import os
-# from flask_cors import CORS
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 APPLICATION_NAME = "Hiking Safety App"
 
@@ -38,10 +38,10 @@ def show_trips():
     for trip in all_trips:
         trip_info = {"trip_name": trip.trip_name,
                      "id": trip.id,
-                     "trip_hikers": trip.hikers}
+                     "trip_description": trip.trip_description
+                     }
         trip_list.append(trip_info)
     return flask.jsonify(trip_list), 200
-
 
 @app.route('/trips/<int:trip_id>/detail', methods=['GET'])
 def show_trip(trip_id):
@@ -49,7 +49,9 @@ def show_trip(trip_id):
     trip = session.query(Trip).filter_by(id=trip_id).one()
     trip_info = {"trip_name": trip.trip_name,
                  "id": trip.id,
-                 "trip_hikers": trip.hikers}
+                 "trip_description": trip.trip_description
+                 }
+
     return flask.jsonify(trip_info), 200
 
 
@@ -58,10 +60,11 @@ def addTrip():
     session = DBSession()
     post = request.get_json()
     if request.method == 'POST':
-        new_trip = Trip(trip_name=post["trip_name"])
-    session.add(newTrip)
+        new_trip = Trip(trip_name=post["trip_name"],
+                        trip_description=post["trip_description"])
+    session.add(new_trip)
     session.commit()
-    return flask.jsonify("Trip successfully added!"), 200
+    return flask.jsonify("successfully created new trip"), 200
 
 
 @app.route('/trips/<int:id>/update', methods=['PUT'])
