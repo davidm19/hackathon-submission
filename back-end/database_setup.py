@@ -34,7 +34,7 @@ class Hiker(Base):
 
     @property
     def serialize(self):
-        return {  # HOW TO UNALPHABETIZE JSON SERIALIZING????
+        return {
                 '1) first_name': self.first_name,
                 '2) last_name': self.last_name,
                 '3) address': self.address,
