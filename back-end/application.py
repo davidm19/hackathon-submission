@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Hiker, engine, Trip
 from flask import session as login_session
 import random
+import datetime
 import string
 import json
 from flask import make_response
@@ -141,6 +142,15 @@ def delete_hiker(id):
     session.delete(hiker_to_delete)
     session.commit()
     return flask.jsonify("Hiker successfully deleted! \n"), 200
+
+# IF THIS RETURNS TRUE THEN COLOR THE HIKER
+def is_overdue(id):
+    hiker_to_check = session.query(Hiker).filter_by(id=id).one()
+    current_date = datetime.datetime.today()
+    if hiker_to_check.expected_return < current_date:
+        return True
+    else:
+        return False
 
 
 if __name__ == "__main__":
