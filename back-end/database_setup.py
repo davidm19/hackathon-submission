@@ -37,6 +37,7 @@ class Hiker(Base):
                 'last_name': self.last_name,
                 'address': self.address,
                 'phone_number': self.phone_number,
+                'email': self.email,
                 'emergency_contact1': self.emergency_contact1,
                 'emergency_contact2': self.emergency_contact2,
                 'expected_return': self.expected_return
@@ -47,6 +48,13 @@ class Trip(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     trip_name = Column(String(32))
     hikers = relationship('Hiker', secondary=association_table, back_populates="trip")
+
+    @property
+    def serialize(self):
+        return {
+                'trip_name': self.trip_name,
+                'hikers': [ hiker.serialize for hiker in self.hikers ]
+        }
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument("-t", "--test", action="store_true")

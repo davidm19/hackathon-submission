@@ -20,7 +20,7 @@ APPLICATION_NAME = "Hiking Safety App"
 
 # SQLALCHEMY_DATABASE_URI = os.environ['DB_URL']
 # engine = create_engine('sqlite:///SQLALCHEMY_DATABASE_URI.db')
-engine = create_engine('sqlite:///database.db')
+engine = create_engine('sqlite:///database.db?check_same_thread=false')
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
@@ -32,30 +32,21 @@ def show_hostpage():
 
 @app.route('/trips', methods=['GET'])
 def show_trips():
-    session = DBSession()
     trip_list = []
     all_trips = session.query(Trip).all()
     for trip in all_trips:
-        trip_info = {"trip_name": trip.trip_name,
-                     "id": trip.id,
-                     "trip_hikers": trip.hikers}
-        trip_list.append(trip_info)
+        trip_list.append(trip.serialize)
     return flask.jsonify(trip_list), 200
 
 
 @app.route('/trips/<int:trip_id>/detail', methods=['GET'])
 def show_trip(trip_id):
-    session = DBSession()
     trip = session.query(Trip).filter_by(id=trip_id).one()
-    trip_info = {"trip_name": trip.trip_name,
-                 "id": trip.id,
-                 "trip_hikers": trip.hikers}
-    return flask.jsonify(trip_info), 200
+    return flask.jsonify(trip.serialize), 200
 
 
 @app.route('/trips/new', methods=['POST'])
-def addTrip():
-    session = DBSession()
+def add_trip():
     post = request.get_json()
     if request.method == 'POST':
         new_trip = Trip(trip_name=post["trip_name"])
@@ -65,8 +56,7 @@ def addTrip():
 
 
 @app.route('/trips/<int:id>/update', methods=['PUT'])
-def updateTrip(id):
-    session = DBSession()
+def update_trip(id):
     post = request.get_json()
     if "id" not in post:
         return "ERROR: Not a valid Customer ID \n", 404
@@ -80,8 +70,7 @@ def updateTrip(id):
 
 
 @app.route('/trips/<int:trip_id>/delete', methods=['DELETE'])
-def deleteTrip(trip_id):
-    session = DBSession()
+def delete_trip(trip_id):
     post = request.get_json()
     trip_to_delete = session.query(Trip).filter_by(id=trip_id).one()
     session.delete(trip_to_delete)
