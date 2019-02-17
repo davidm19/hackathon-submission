@@ -22,7 +22,7 @@ export class TripsApiService {
 
   getTrip(TRIP_ID: number): Observable<Trip> {
       return this.http
-      .get<Trip>(`${API_URL}/trips/${TRIP_ID}/detail`);
+      .get<Trip>(`${API_URL}/trips/${TRIP_ID}`);
   }
 
   getTrips():
