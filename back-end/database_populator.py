@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Trip, Hiker, engine
+from database_setup import Base, Trip, engine
 from datetime import datetime
 import argparse
 
@@ -93,4 +93,5 @@ trip2.hikers.append(hiker5)
 
 session.add(trip1)
 session.add(trip2)
+
 session.commit()

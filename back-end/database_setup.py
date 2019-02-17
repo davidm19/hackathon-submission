@@ -45,11 +45,11 @@ class Hiker(Base):
                 '8) expected_return': self.expected_return
         }
 
-
 class Trip(Base):
     __tablename__ = 'trip'
     id = Column(Integer, primary_key=True, autoincrement=True)
     trip_name = Column(String(32))
+    trip_description = Column(String(800))
     hikers = relationship('Hiker', secondary=association_table,
                           back_populates="trip")
 
@@ -57,19 +57,9 @@ class Trip(Base):
     def serialize(self):
         return {
                 '1. trip_name': self.trip_name,
-                '2. hikers': [hiker.serialize for hiker in self.hikers]
+                '2. trip_description': self.trip_description,
+                '3. hikers': [hiker.serialize for hiker in self.hikers]
         }
-
-# parser = argparse.ArgumentParser()
-# parser.add_argument("-t", "--test", action="store_true")
-# args = parser.parse_args()
-# if args.test:
-#     print "Created test database"
-#     engine = create_engine('sqlite:///test.db')
-# else:
-#     print "Created regular database"
-#     engine = create_engine('sqlite:///database.db')
-
 
 engine = create_engine('sqlite:///database.db')
 Base.metadata.create_all(engine)
