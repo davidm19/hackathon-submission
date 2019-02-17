@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { API_URL } from '../../env';
 import { Trip } from './trip.model';
+import { Hiker } from './hiker/hiker.model';
 
 @Injectable()
 export class TripsApiService {
@@ -20,9 +21,14 @@ export class TripsApiService {
     .delete(`${API_URL}/trips/${TRIP_ID}/delete`);
   }
 
+  getHikersInTrip(TRIP_ID: number) {
+    return this.http
+    .get<Array<Hiker>>(`${API_URL}/trips/${TRIP_ID}/detail/hikers`)
+  }
+
   getTrip(TRIP_ID: number): Observable<Trip> {
       return this.http
-      .get<Trip>(`${API_URL}/trips/${TRIP_ID}`);
+      .get<Trip>(`${API_URL}/trips/${TRIP_ID}/detail`);
   }
 
   getTrips():

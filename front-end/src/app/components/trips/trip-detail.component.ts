@@ -7,6 +7,8 @@ import { TripsApiService } from './trips-api.service';
 import { Trip } from './trip.model';
 import { TripsComponent } from './trips.component';
 import { TripsModule } from './trips.module';
+import { Hiker } from './hiker/hiker.model';
+import { HikersApiService } from './hiker/hikers-api.service';
 
 @Component({
   selector: 'app-trip-detail',
@@ -14,13 +16,13 @@ import { TripsModule } from './trips.module';
   // styleUrls: ['./trip-detail.component.css']
 })
 export class TripDetailComponent implements OnInit {
-  HikerList: Array<Hiker>;
+  tripHikerList: Array<Hiker>;
   trip: Trip;
 
   constructor(
     private tripsApi: TripsApiService,
     private route: ActivatedRoute,
-    private studentsApi: StudentsApiService
+    private hikersApi: HikersApiService
   ) {
 
   }
@@ -47,7 +49,7 @@ export class TripDetailComponent implements OnInit {
     .getHikersInTrip(TRIP_ID)
     .subscribe(
       res => {
-      this.tripList = res;
+      this.tripHikerList = res;
     }
   );
 }

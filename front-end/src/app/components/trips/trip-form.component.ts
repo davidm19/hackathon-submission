@@ -19,14 +19,6 @@ export class TripFormComponent {
     trip_grade: ''
   };
 
-  grades = [
-    { id: 7, value: '7' },
-    { id: 8, value: '8' },
-    { id: 9, value: '9' },
-    { id: 10, value: '10' },
-    { id: 11, value: '11' },
-    { id: 12, value: '12' }
-  ];
 
   constructor(private tripsApi: TripsApiService, private router: Router) { }
 

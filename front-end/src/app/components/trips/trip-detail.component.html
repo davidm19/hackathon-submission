@@ -1,9 +1,26 @@
-<!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:300px">
-  <div class="w3-card">
-    <h2>
-      {{ trip?.trip_name }}
-      </h2>
-    </div>
+<body class="w3-main" style="margin-left:300px">
 
+
+<!-- !HEADER! -->
+<header>
+  <div class="w3-container">
+  <h1><b>{{ trip?.trip_name }}</b></h1>
+  </div>
+</header>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-row-padding ">
+  <div class="w3-container w3-margin-bottom ">
+    <div class="w3-card w3-container w3-light-grey" routerLink="{{ trip.id }}/detail">
+      <h2><b>Details:</b></h2>
+      <p><b>Description: </b> <i>{{ trip?.trip_description }}</i></p>
+      <p><b>Start Location: </b><i>{{ trip?.trip_start_location }}</i></p>
+      <p><b>Start Date: </b><i>{{ trip?.trip_start_date }}</i></p>
+      <p><b>End Location: </b><i>{{ trip?.trip_end_location }}</i></p>
+      <p><b>End Date: </b><i>{{ trip?.trip_end_date }}</i></p>
+    </div>
+  </div>
 </div>
+
+
+</body>

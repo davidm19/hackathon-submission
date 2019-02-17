@@ -3,11 +3,7 @@ from flask import Flask, render_template, request, redirect, jsonify, url_for
 from flask import flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-<<<<<<< HEAD
-from database_setup import Base, engine, Trip
-=======
-from database_setup import Base, Hiker, engine, Trip
->>>>>>> david/back-end
+from database_setup import Base, Hiker, engine, Trip, TripHikerLink
 from flask import session as login_session
 import random
 import string
@@ -37,53 +33,54 @@ def show_hostpage():
 
 
 @app.route('/trips', methods=['GET'])
-def show_trips():
-    trip_list = []
-    all_trips = session.query(Trip).all()
-    for trip in all_trips:
-<<<<<<< HEAD
+def getTrips():
+    tripList = []
+    allTrips = session.query(Trip).all()
+    for trip in allTrips:
         trip_info = {"trip_name": trip.trip_name,
                      "id": trip.id,
-                     "trip_description": trip.trip_description
+                     "trip_description": trip.trip_description,
+                     "trip_start_location": trip.trip_start_location,
+                     "trip_start_date": trip.trip_start_date,
+                     "trip_end_location": trip.trip_end_location,
+                     "trip_end_date": trip.trip_end_date,
+
                      }
-        trip_list.append(trip_info)
-    return flask.jsonify(trip_list), 200
+        tripList.append(trip_info)
+    return flask.jsonify(tripList), 200
+
 
 @app.route('/trips/<int:trip_id>/detail', methods=['GET'])
-=======
-        trip_list.append(trip.serialize)
-    return flask.jsonify(trip_list), 200
-
-
-@app.route('/trips/<int:trip_id>', methods=['GET'])
->>>>>>> david/back-end
-def show_trip(trip_id):
+def showTrip(trip_id):
     trip = session.query(Trip).filter_by(id=trip_id).one()
-<<<<<<< HEAD
     trip_info = {"trip_name": trip.trip_name,
                  "id": trip.id,
-                 "trip_description": trip.trip_description
-                 }
-
+                 "trip_description": trip.trip_description,
+                 "trip_start_location": trip.trip_start_location,
+                 "trip_start_date": trip.trip_start_date,
+                 "trip_end_location": trip.trip_end_location,
+                 "trip_end_date": trip.trip_end_date,
+                  }
     return flask.jsonify(trip_info), 200
-=======
-    return flask.jsonify(trip.serialize), 200
->>>>>>> david/back-end
 
 
 @app.route('/trips/new', methods=['POST'])
-def add_trip():
+def addTrip():
     post = request.get_json()
     if request.method == 'POST':
         new_trip = Trip(trip_name=post["trip_name"],
-                        trip_description=post["trip_description"])
+                        trip_description=post["trip_description"],
+                        trip_start_location=post["trip_start_location"],
+                        trip_start_date=post["trip_start_date"],
+                        trip_end_location=post["trip_end_location"],
+                        trip_end_date=post["trip_end_date"])
     session.add(new_trip)
     session.commit()
     return flask.jsonify("successfully created new trip"), 200
 
 
 @app.route('/trips/<int:id>/update', methods=['PUT'])
-def update_trip(id):
+def updateTrip(id):
     post = request.get_json()
     if "id" not in post:
         return "ERROR: Not a valid Customer ID \n", 404
@@ -97,25 +94,42 @@ def update_trip(id):
 
 
 @app.route('/trips/<int:trip_id>/delete', methods=['DELETE'])
-def delete_trip(trip_id):
+def deleteTrip(trip_id):
     post = request.get_json()
     trip_to_delete = session.query(Trip).filter_by(id=trip_id).one()
     session.delete(trip_to_delete)
     session.commit()
     return flask.jsonify("Trip successfully deleted!"), 200
 
+@app.route('/trips/<int:trip_id>/detail/hikers', methods=['GET'])
+def getHikersInTrip(trip_id):
+    tripHikerList = []
+    tripHikerLinks = session.query(TripHikerLink).join(Trip).filter(Trip.id == trip_id).all()
+    for tripHikerLink in tripHikerLinks:
+        hiker_info = {"first_name": tripHikerLink.hiker.first_name,
+                      "last_name": tripHikerLink.hiker.last_name,
+                      "address": tripHikerLink.hiker.address,
+                      "phone_number": tripHikerLink.hiker.phone_number,
+                      "email": tripHikerLink.hiker.email,
+                      "emergency_contact1": tripHikerLink.hiker.emergency_contact1,
+                      "emergency_contact2": tripHikerLink.hiker.emergency_contact2,
+                      "expected_return": tripHikerLink.hiker.expected_return,
+                      }
+        tripStudentList.append(hiker_info)
+    print(tripHikerList);
+    return flask.jsonify(tripHikerList), 200
 
 @app.route('/hikers/<int:ID>/', methods=['GET'])
-def show_hiker(ID):
+def showHiker(ID):
     hiker = session.query(Hiker).filter_by(id=ID).one()
     return flask.jsonify(hiker.serialize), 200
 
 
 @app.route('/hikers/new', methods=['POST'])
-def new_hiker():
+def newHiker():
     post = request.get_json()
     if request.method == 'POST':
-        new_hiker = Hiker(first_name=post["first_name"],
+        newHiker = Hiker(first_name=post["first_name"],
                           last_name=post["last_name"],
                           address=post["address"],
                           phone_number=post["phone_number"],
@@ -124,13 +138,13 @@ def new_hiker():
                           emergency_contact2=post["emergency_contact2"],
                           expected_return=post["expected_return"]
                           )
-    session.add(new_hiker)
+    session.add(newHiker)
     session.commit()
     return flask.jsonify("Hiker successfully added! \n"), 200
 
 
 @app.route('/hikers/<int:id>/edit', methods=['PUT'])
-def edit_hiker(id):
+def editHiker(id):
     post = request.get_json()
     if "id" not in post:
         return "ERROR: Not a valid Customer ID \n", 404
@@ -158,7 +172,7 @@ def edit_hiker(id):
 
 
 @app.route('/hikers/<int:id>/delete', methods=['PUT'])
-def delete_hiker(id):
+def deleteHiker(id):
     post = request.get_json()
     if "id" not in post:
         return "ERROR: Not a valid Customer ID \n", 404

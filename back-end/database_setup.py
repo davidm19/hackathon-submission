@@ -8,49 +8,14 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, relationship, backref
 from sqlalchemy.sql import func
 
-
-<<<<<<< HEAD
 Base = declarative_base()
 
-# association_table = Table('association', Base.metadata,
-#                           Column('hiker_id', Integer,
-#                               ForeignKey('hiker.id')),
-#                           Column('trip_id', Integer,
-#                               ForeignKey('trip.id'))
-#                           )
-
-# class Hiker(Base):
-#     __tablename__ = 'hiker'
-#     id = Column(Integer, primary_key=True, autoincrement=True)
-#     first_name = Column(String(32))
-#     last_name = Column(String(32))
-#     address = Column(String(32))
-#     phone_number = Column(String(32))
-#     email = Column(String(32))
-#     emergency_contact1 = Column(String(32))
-#     emergency_contact2 = Column(String(32))
-#     expected_return = Column(DateTime()) # WHENEVER WE WANT TO ESTABLISH A DATE, YOU HAVE TO PASS IT IN
-#     trip = relationship('Trip', secondary=association_table, back_populates="hikers")
-#
-#     @property
-#     def serialize(self):
-#         return {
-#                 'first_name': self.first_name,
-#                 'last_name': self.last_name,
-#                 'address': self.address,
-#                 'phone_number': self.phone_number,
-#                 'emergency_contact1': self.emergency_contact1,
-#                 'emergency_contact2': self.emergency_contact2,
-#                 'expected_return': self.expected_return
-#         }
-=======
-association_table = Table('association', Base.metadata,
-                          Column('hiker_id', Integer,
-                                 ForeignKey('hiker.id')),
-                          Column('trip_id', Integer,
-                                 ForeignKey('trip.id'))
-                          )
-
+class TripHikerLink(Base):
+    __tablename__ = 'trip_hiker_link'
+    trip_id = Column(Integer, ForeignKey('trip.id'), primary_key=True)
+    hiker_id = Column(Integer, ForeignKey('hiker.id'), primary_key=True)
+    trip = relationship('Trip', backref=backref("hiker_assoc"))
+    hiker = relationship('Hiker', backref=backref("trip_assoc"))
 
 class Hiker(Base):
     __tablename__ = 'hiker'
@@ -63,8 +28,7 @@ class Hiker(Base):
     emergency_contact1 = Column(String(32))
     emergency_contact2 = Column(String(32))
     expected_return = Column(DateTime())
-    trip = relationship('Trip', secondary=association_table,
-                        back_populates="hikers")
+    trip = relationship('Trip', secondary='trip_hiker_link')
 
     @property
     def serialize(self):
@@ -78,27 +42,29 @@ class Hiker(Base):
                 '7) emergency_contact2': self.emergency_contact2,
                 '8) expected_return': self.expected_return
         }
->>>>>>> david/back-end
-
 
 class Trip(Base):
     __tablename__ = 'trip'
     id = Column(Integer, primary_key=True, autoincrement=True)
     trip_name = Column(String(32))
-<<<<<<< HEAD
     trip_description = Column(String(800))
-    # hikers = relationship('Hiker', secondary=association_table, back_populates="trip")
-=======
-    hikers = relationship('Hiker', secondary=association_table,
-                          back_populates="trip")
+    trip_start_location = Column(String(100))
+    trip_start_date = Column(DateTime())
+    trip_end_location = Column(String(100))
+    trip_end_date = Column(DateTime())
+    hikers = relationship('Hiker', secondary='trip_hiker_link')
 
     @property
     def serialize(self):
         return {
                 '1. trip_name': self.trip_name,
-                '2. hikers': [hiker.serialize for hiker in self.hikers]
+                '2. trip_description': self.trip_description,
+                '3. trip_start_location': self.trip_start_location,
+                '4. trip_start_date': self.trip_start_date,
+                '5. trip_end_location': self.trip_end_location,
+                '6. trip_end_date': self.trip_end_date,
+                '7. hikers': [hiker.serialize for hiker in self.hikers]
         }
->>>>>>> david/back-end
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument("-t", "--test", action="store_true")
