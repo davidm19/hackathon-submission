@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, jsonify, url_for
 from flask import flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Hiker, engine, Trip # from database_setup import Trip
+from database_setup import Base, Hiker, engine, Trip
 from flask import session as login_session
 import random
 import string
@@ -24,6 +24,7 @@ engine = create_engine('sqlite:///database.db?check_same_thread=false')
 DBSession = sessionmaker(bind=engine)
 
 session = DBSession()
+
 
 @app.route('/')
 def show_hostpage():
@@ -88,7 +89,15 @@ def show_hiker(ID):
 def new_hiker():
     post = request.get_json()
     if request.method == 'POST':
-        new_hiker = Hiker(first_name=post["first_name"], last_name=post["last_name"], address=post["address"], phone_number=post["phone_number"], email=post["email"], emergency_contact1=post["emergency_contact1"], emergency_contact2=post["emergency_contact2"], expected_return=post["expected_return"])
+        new_hiker = Hiker(first_name=post["first_name"],
+                          last_name=post["last_name"],
+                          address=post["address"],
+                          phone_number=post["phone_number"],
+                          email=post["email"],
+                          emergency_contact1=post["emergency_contact1"],
+                          emergency_contact2=post["emergency_contact2"],
+                          expected_return=post["expected_return"]
+                          )
     session.add(new_hiker)
     session.commit()
     return flask.jsonify("Hiker successfully added! \n"), 200
@@ -132,7 +141,6 @@ def delete_hiker(id):
     session.delete(hiker_to_delete)
     session.commit()
     return flask.jsonify("Hiker successfully deleted! \n"), 200
-
 
 
 if __name__ == "__main__":

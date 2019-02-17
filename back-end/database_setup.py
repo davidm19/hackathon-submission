@@ -11,11 +11,12 @@ from sqlalchemy.sql import func
 Base = declarative_base()
 
 association_table = Table('association', Base.metadata,
-                          Column('hiker_id', Integer, 
-                              ForeignKey('hiker.id')), 
-                          Column('trip_id', Integer, 
-                              ForeignKey('trip.id'))
+                          Column('hiker_id', Integer,
+                                 ForeignKey('hiker.id')),
+                          Column('trip_id', Integer,
+                                 ForeignKey('trip.id'))
                           )
+
 
 class Hiker(Base):
     __tablename__ = 'hiker'
@@ -27,12 +28,13 @@ class Hiker(Base):
     email = Column(String(32))
     emergency_contact1 = Column(String(32))
     emergency_contact2 = Column(String(32))
-    expected_return = Column(DateTime()) # WHENEVER WE WANT TO ESTABLISH A DATE, YOU HAVE TO PASS IT IN
-    trip = relationship('Trip', secondary=association_table, back_populates="hikers")
+    expected_return = Column(DateTime())
+    trip = relationship('Trip', secondary=association_table,
+                        back_populates="hikers")
 
     @property
     def serialize(self):
-        return { # HOW TO UNALPHABETIZE JSON SERIALIZING????
+        return {  # HOW TO UNALPHABETIZE JSON SERIALIZING????
                 '1) first_name': self.first_name,
                 '2) last_name': self.last_name,
                 '3) address': self.address,
@@ -43,17 +45,19 @@ class Hiker(Base):
                 '8) expected_return': self.expected_return
         }
 
+
 class Trip(Base):
     __tablename__ = 'trip'
     id = Column(Integer, primary_key=True, autoincrement=True)
     trip_name = Column(String(32))
-    hikers = relationship('Hiker', secondary=association_table, back_populates="trip")
+    hikers = relationship('Hiker', secondary=association_table,
+                          back_populates="trip")
 
     @property
     def serialize(self):
         return {
                 '1. trip_name': self.trip_name,
-                '2. hikers': [ hiker.serialize for hiker in self.hikers ]
+                '2. hikers': [hiker.serialize for hiker in self.hikers]
         }
 
 # parser = argparse.ArgumentParser()
@@ -66,7 +70,6 @@ class Trip(Base):
 #     print "Created regular database"
 #     engine = create_engine('sqlite:///database.db')
 
+
 engine = create_engine('sqlite:///database.db')
 Base.metadata.create_all(engine)
-
-# information (name, contact info, expected checkout date) and trips (groups of hikers)
