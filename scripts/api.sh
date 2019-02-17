@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# Documentation
-read -r -d '' DOCUMENTATION <<EOF
-Usage: api [OPERATION]
-Operation: app   - Set up application using test database
-		   db    - Set up a populated database
-		   setup - Install programs and add api alias to bashrc
-		   test  - Run unit tests on application
-EOF
-
 # Define location globals
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[@]}" )" && pwd )"
 # SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -35,11 +26,7 @@ case "$ACTION" in
 	setup)
 		setup
 		;;
-	test)
-		bash $SCRIPT_DIR/test.sh
-		;;
 	*)
 		echo "'$ACTION' is not a valid operation."
-		echo "$DOCUMENTATION"
 		echo "Exiting..."
 esac
